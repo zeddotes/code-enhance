@@ -1,0 +1,28 @@
+name: Feature request
+description: Suggest an improvement for authors using the Code block
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search [existing issues](https://github.com/zeddotes/wp-code-enhance-block/issues) before opening a new one.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What authoring problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How should Code Enhance behave?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches or existing plugins you evaluated.

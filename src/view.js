@@ -1,26 +1,7 @@
 /**
  * Frontend: Prism highlighting + copy button injection.
  */
-import Prism from 'prismjs';
-
-import 'prismjs/components/prism-markup';
-import 'prismjs/components/prism-css';
-import 'prismjs/components/prism-clike';
-import 'prismjs/components/prism-javascript';
-import 'prismjs/components/prism-typescript';
-import 'prismjs/components/prism-markup-templating';
-import 'prismjs/components/prism-php';
-import 'prismjs/components/prism-json';
-import 'prismjs/components/prism-bash';
-import 'prismjs/components/prism-python';
-import 'prismjs/components/prism-sql';
-import 'prismjs/components/prism-markdown';
-import 'prismjs/components/prism-yaml';
-import 'prismjs/components/prism-go';
-import 'prismjs/components/prism-rust';
-import 'prismjs/components/prism-scss';
-
-import 'prismjs/themes/prism-okaidia.css';
+import Prism from './prism';
 import './style.scss';
 
 const COPY_LABEL = 'Copy';
@@ -102,12 +83,27 @@ function enhanceCopyButton( blockEl ) {
 }
 
 /**
+ * Apply tab-size from data attribute when inline style is missing.
+ *
+ * @param {HTMLElement} blockEl .wp-block-code element.
+ */
+function applyTabSize( blockEl ) {
+	const tabSize = blockEl.getAttribute( 'data-tab-size' );
+	if ( ! tabSize ) {
+		return;
+	}
+	blockEl.style.tabSize = tabSize;
+	blockEl.style.MozTabSize = tabSize;
+}
+
+/**
  * Initialize Prism and copy buttons.
  */
 function init() {
 	const blocks = document.querySelectorAll( '.wp-block-code' );
 
 	blocks.forEach( ( blockEl ) => {
+		applyTabSize( blockEl );
 		if ( blockEl.classList.contains( 'has-copy-button' ) ) {
 			enhanceCopyButton( blockEl );
 		}

@@ -1,5 +1,32 @@
 .wp-block-code {
 	position: relative;
+	tab-size: var(--code-enhance-tab-size, 4);
+
+	&[data-tab-size='2'] {
+		--code-enhance-tab-size: 2;
+	}
+
+	&[data-tab-size='4'] {
+		--code-enhance-tab-size: 4;
+	}
+
+	&[data-tab-size='8'] {
+		--code-enhance-tab-size: 8;
+	}
+
+	&.line-numbers {
+		position: relative;
+		padding-left: 0;
+
+		/* Prism line-numbers plugin styles are loaded via JS; theme tweaks: */
+		.line-numbers-rows {
+			border-right-color: rgba(255, 255, 255, 0.12);
+		}
+
+		.line-numbers-rows > span::before {
+			color: #75715e;
+		}
+	}
 
 	&.has-copy-button {
 		.code-enhance-copy {

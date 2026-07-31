@@ -1,0 +1,61 @@
+name: Bug report
+description: Report unexpected behavior in the editor or on the frontend
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search [existing issues](https://github.com/zeddotes/wp-code-enhance-block/issues) before opening a new one.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What went wrong?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps starting from a fresh post or page.
+      placeholder: |
+        1. Insert a Code block
+        2. Set language to JavaScript
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: wp-version
+    attributes:
+      label: WordPress version
+      placeholder: "7.0"
+    validations:
+      required: true
+  - type: input
+    id: php-version
+    attributes:
+      label: PHP version
+      placeholder: "8.2"
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Code Enhance version
+      placeholder: "1.0.0"
+  - type: textarea
+    id: extras
+    attributes:
+      label: Theme, plugins, screenshots
+      description: Anything else that helps reproduce the issue.

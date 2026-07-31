@@ -1,21 +1,24 @@
 /**
- * Extends core/code with language + copy-button controls.
+ * Extends core/code with language, copy button, editor highlighting, and tabs.
  */
-import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, ToggleControl } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { cloneElement, Children, isValidElement } from '@wordpress/element';
 
-import {
-	COPY_POSITION_OPTIONS,
-	COPY_VISIBILITY_OPTIONS,
-	LANGUAGE_OPTIONS,
-} from './languages';
+import CodeEnhanceEdit from './edit';
 import './editor.scss';
 
 const BLOCK_NAME = 'core/code';
+
+/**
+ * Merge class names, dropping empties.
+ *
+ * @param {...string} classNames Class name fragments.
+ * @return {string} Merged className.
+ */
+function mergeClassNames( ...classNames ) {
+	return classNames.filter( Boolean ).join( ' ' ).replace( /\s+/g, ' ' ).trim();
+}
 
 /**
  * Register Code Enhance attributes on core/code.
@@ -49,6 +52,18 @@ function addCodeEnhanceAttributes( settings, name ) {
 				type: 'string',
 				default: 'hover',
 			},
+			tabSize: {
+				type: 'number',
+				default: 4,
+			},
+			indentWithSpaces: {
+				type: 'boolean',
+				default: true,
+			},
+			showLineNumbers: {
+				type: 'boolean',
+				default: false,
+			},
 		},
 	};
 }
@@ -60,17 +75,7 @@ addFilter(
 );
 
 /**
- * Merge class names, dropping empties.
- *
- * @param {...string} classNames Class name fragments.
- * @return {string} Merged className.
- */
-function mergeClassNames( ...classNames ) {
-	return classNames.filter( Boolean ).join( ' ' ).replace( /\s+/g, ' ' ).trim();
-}
-
-/**
- * Add copy-related classes/data attrs on the saved <pre>.
+ * Add copy-related classes/data attrs and tab-size on the saved <pre>.
  *
  * @param {Object} props      Extra props.
  * @param {Object} blockType  Block type.
@@ -86,23 +91,42 @@ function addCodeEnhanceExtraProps( props, blockType, attributes ) {
 		showCopy = true,
 		copyPosition = 'top-right',
 		copyVisibility = 'hover',
+		tabSize = 4,
+		showLineNumbers = false,
 	} = attributes;
 
-	if ( ! showCopy ) {
-		return props;
+	const resolvedTabSize = Number( tabSize ) || 4;
+	const extraClasses = [];
+
+	if ( showLineNumbers ) {
+		extraClasses.push( 'line-numbers' );
 	}
 
-	return {
-		...props,
-		className: mergeClassNames(
-			props.className,
+	if ( showCopy ) {
+		extraClasses.push(
 			'has-copy-button',
 			`copy-position-${ copyPosition }`,
 			`copy-visibility-${ copyVisibility }`
-		),
-		'data-copy-position': copyPosition,
-		'data-copy-visibility': copyVisibility,
+		);
+	}
+
+	const next = {
+		...props,
+		className: mergeClassNames( props.className, ...extraClasses ),
+		style: {
+			...( props.style || {} ),
+			tabSize: resolvedTabSize,
+			MozTabSize: resolvedTabSize,
+		},
+		'data-tab-size': String( resolvedTabSize ),
 	};
+
+	if ( showCopy ) {
+		next[ 'data-copy-position' ] = copyPosition;
+		next[ 'data-copy-visibility' ] = copyVisibility;
+	}
+
+	return next;
 }
 
 addFilter(
@@ -136,9 +160,13 @@ function addCodeEnhanceSaveElement( element, blockType, attributes ) {
 		} );
 	} );
 
-	return cloneElement( element, {
-		className: mergeClassNames( element.props.className, languageClass ),
-	}, children );
+	return cloneElement(
+		element,
+		{
+			className: mergeClassNames( element.props.className, languageClass ),
+		},
+		children
+	);
 }
 
 addFilter(
@@ -148,81 +176,16 @@ addFilter(
 );
 
 /**
- * Inspector controls for language and copy button.
+ * Replace core Code edit with the Code Enhance editor.
  */
-const withCodeEnhanceControls = createHigherOrderComponent( ( BlockEdit ) => {
+const withCodeEnhanceEdit = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
 		if ( props.name !== BLOCK_NAME ) {
 			return <BlockEdit { ...props } />;
 		}
 
-		const { attributes, setAttributes } = props;
-		const {
-			language = '',
-			showCopy = true,
-			copyPosition = 'top-right',
-			copyVisibility = 'hover',
-		} = attributes;
-
-		return (
-			<>
-				<BlockEdit { ...props } />
-				<InspectorControls>
-					<PanelBody
-						title={ __( 'Code Enhance', 'code-enhance' ) }
-						initialOpen={ true }
-					>
-						<SelectControl
-							__next40pxDefaultSize
-							__nextHasNoMarginBottom
-							label={ __( 'Language', 'code-enhance' ) }
-							value={ language }
-							options={ LANGUAGE_OPTIONS }
-							onChange={ ( value ) =>
-								setAttributes( { language: value } )
-							}
-						/>
-						<ToggleControl
-							__nextHasNoMarginBottom
-							label={ __( 'Show copy button', 'code-enhance' ) }
-							checked={ !! showCopy }
-							onChange={ ( value ) =>
-								setAttributes( { showCopy: value } )
-							}
-						/>
-						{ showCopy && (
-							<>
-								<SelectControl
-									__next40pxDefaultSize
-									__nextHasNoMarginBottom
-									label={ __( 'Copy button position', 'code-enhance' ) }
-									value={ copyPosition }
-									options={ COPY_POSITION_OPTIONS }
-									onChange={ ( value ) =>
-										setAttributes( { copyPosition: value } )
-									}
-								/>
-								<SelectControl
-									__next40pxDefaultSize
-									__nextHasNoMarginBottom
-									label={ __( 'Copy button visibility', 'code-enhance' ) }
-									value={ copyVisibility }
-									options={ COPY_VISIBILITY_OPTIONS }
-									onChange={ ( value ) =>
-										setAttributes( { copyVisibility: value } )
-									}
-								/>
-							</>
-						) }
-					</PanelBody>
-				</InspectorControls>
-			</>
-		);
+		return <CodeEnhanceEdit { ...props } />;
 	};
-}, 'withCodeEnhanceControls' );
+}, 'withCodeEnhanceEdit' );
 
-addFilter(
-	'editor.BlockEdit',
-	'code-enhance/inspector-controls',
-	withCodeEnhanceControls
-);
+addFilter( 'editor.BlockEdit', 'code-enhance/edit', withCodeEnhanceEdit );

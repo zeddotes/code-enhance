@@ -2,7 +2,7 @@
 Contributors: zeddotes
 Tags: code, syntax highlighting, prism, copy, gutenberg
 Requires at least: 6.0
-Tested up to: 6.7
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -14,7 +14,10 @@ Extends the core Code block with language selection (Prism.js) and a configurabl
 
 Code Enhance adds inspector controls to the WordPress core Code block:
 
-* Language select for Prism.js syntax highlighting on the frontend
+* Language select with Prism.js highlighting in the editor and on the frontend
+* Optional line numbers
+* Tab key indents inside the block (Shift+Tab outdents); optional spaces instead of tabs
+* Configurable tab size (2 / 4 / 8)
 * Optional copy button with corner position (top/bottom × left/right)
 * Copy button visibility: on hover or always visible
 
@@ -35,7 +38,7 @@ No. It extends `core/code` via block filters.
 
 = Where does highlighting run? =
 
-On the frontend only, via a bundled Prism.js build.
+In the block editor and on the frontend, via a bundled Prism.js build.
 
 == Changelog ==
 

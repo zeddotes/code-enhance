@@ -30,3 +30,9 @@ export const COPY_VISIBILITY_OPTIONS = [
 	{ label: 'On hover', value: 'hover' },
 	{ label: 'Always', value: 'always' },
 ];
+
+export const TAB_SIZE_OPTIONS = [
+	{ label: '2', value: '2' },
+	{ label: '4', value: '4' },
+	{ label: '8', value: '8' },
+];

@@ -25,7 +25,7 @@ define( 'CODE_ENHANCE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'CODE_ENHANCE_URL', plugin_dir_url( __FILE__ ) );
 
 /**
- * Enqueue editor assets that extend core/code.
+ * Enqueue editor script that extends core/code.
  */
 function code_enhance_enqueue_editor_assets() {
 	$asset_file = CODE_ENHANCE_DIR . 'build/index.asset.php';
@@ -45,8 +45,25 @@ function code_enhance_enqueue_editor_assets() {
 	);
 
 	wp_set_script_translations( 'code-enhance-editor', 'code-enhance' );
+}
+add_action( 'enqueue_block_editor_assets', 'code_enhance_enqueue_editor_assets' );
 
+/**
+ * Load editor canvas styles (iframe-safe via enqueue_block_assets).
+ */
+function code_enhance_enqueue_editor_styles() {
+	if ( ! is_admin() ) {
+		return;
+	}
+
+	$asset_file = CODE_ENHANCE_DIR . 'build/index.asset.php';
+	if ( ! file_exists( $asset_file ) ) {
+		return;
+	}
+
+	$asset = include $asset_file;
 	$editor_css = CODE_ENHANCE_DIR . 'build/index.css';
+
 	if ( file_exists( $editor_css ) ) {
 		wp_enqueue_style(
 			'code-enhance-editor',
@@ -56,7 +73,7 @@ function code_enhance_enqueue_editor_assets() {
 		);
 	}
 }
-add_action( 'enqueue_block_editor_assets', 'code_enhance_enqueue_editor_assets' );
+add_action( 'enqueue_block_assets', 'code_enhance_enqueue_editor_styles' );
 
 /**
  * Enqueue frontend Prism + copy-button assets on singular views.

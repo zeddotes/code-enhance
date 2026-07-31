@@ -16,7 +16,8 @@
 	"scripts": {
 		"build": "wp-scripts build",
 		"start": "wp-scripts start",
-		"packages-update": "wp-scripts packages-update"
+		"packages-update": "wp-scripts packages-update",
+		"package": "bash bin/package-plugin.sh"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^30.0.0"

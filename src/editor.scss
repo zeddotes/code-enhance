@@ -1,4 +1,119 @@
-/* Editor-only tweaks for Code Enhance panel spacing. */
 .block-editor-block-inspector .components-panel__body .components-base-control {
 	margin-bottom: 12px;
+}
+
+.wp-block-code.code-enhance-editor {
+	--code-enhance-pad-y: 0.75em;
+	--code-enhance-pad-x: 1em;
+	--code-enhance-line-height: 1.6;
+	--code-enhance-gutter: 2.75em;
+
+	position: relative;
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background: #272822;
+	color: #f8f8f2;
+	font-family: Menlo, Consolas, monaco, monospace;
+	font-size: 0.875em;
+	line-height: var(--code-enhance-line-height);
+	border-radius: 4px;
+	tab-size: 4;
+
+	&.show-line-numbers {
+		.code-enhance-highlight,
+		.code-enhance-textarea {
+			padding-left: calc(var(--code-enhance-gutter) + var(--code-enhance-pad-x));
+		}
+	}
+
+	.code-enhance-line-numbers {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 2;
+		box-sizing: border-box;
+		margin: 0;
+		padding: var(--code-enhance-pad-y) 0.5em var(--code-enhance-pad-y) 0;
+		width: var(--code-enhance-gutter);
+		border-right: 1px solid rgba(255, 255, 255, 0.12);
+		background: rgba(0, 0, 0, 0.2);
+		color: #75715e;
+		font: inherit;
+		line-height: inherit;
+		text-align: right;
+		pointer-events: none;
+		user-select: none;
+		overflow: hidden;
+
+		span {
+			display: block;
+			height: calc(1em * var(--code-enhance-line-height));
+		}
+	}
+
+	.code-enhance-highlight,
+	.code-enhance-textarea {
+		box-sizing: border-box;
+		margin: 0;
+		padding: var(--code-enhance-pad-y) var(--code-enhance-pad-x);
+		width: 100%;
+		min-height: calc(
+			(1em * var(--code-enhance-line-height)) +
+				(2 * var(--code-enhance-pad-y))
+		);
+		border: 0;
+		font: inherit;
+		line-height: inherit;
+		tab-size: inherit;
+		white-space: pre;
+		overflow: hidden;
+		word-wrap: normal;
+		overflow-wrap: normal;
+	}
+
+	.code-enhance-highlight {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+		background: transparent;
+		color: inherit;
+
+		code {
+			display: block;
+			font: inherit;
+			color: inherit;
+			background: transparent;
+			padding: 0;
+			white-space: inherit;
+			tab-size: inherit;
+		}
+	}
+
+	.code-enhance-textarea {
+		position: relative;
+		z-index: 1;
+		display: block;
+		resize: none;
+		background: transparent;
+		color: transparent;
+		caret-color: #f8f8f2;
+		outline: none;
+		-webkit-text-fill-color: transparent;
+		field-sizing: content;
+
+		&::selection {
+			background: rgba(102, 217, 239, 0.35);
+			color: transparent;
+			-webkit-text-fill-color: transparent;
+		}
+
+		&:focus {
+			outline: 2px solid #66d9ef;
+			outline-offset: -2px;
+		}
+	}
 }
