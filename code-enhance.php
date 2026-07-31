@@ -7,7 +7,7 @@
  * Requires PHP:      7.4
  * Author:            Zain Syed
  * Author URI:        https://github.com/zeddotes
- * Plugin URI:        https://github.com/zeddotes/wp-code-enhance-block
+ * Plugin URI:        https://github.com/zeddotes/code-enhance
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       code-enhance

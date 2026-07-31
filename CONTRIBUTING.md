@@ -4,7 +4,7 @@ Thanks for helping improve Code Enhance. Collaboration is welcome — issues, di
 
 ## Open an issue
 
-Use GitHub Issues: [zeddotes/wp-code-enhance-block/issues](https://github.com/zeddotes/wp-code-enhance-block/issues)
+Use GitHub Issues: [zeddotes/code-enhance/issues](https://github.com/zeddotes/code-enhance/issues)
 
 - **Bug report** — unexpected behavior in the editor or on the frontend. Include WordPress version, theme, steps to reproduce, and screenshots when useful.
 - **Feature request** — describe the authoring problem and how the feature would help. Check existing issues first to avoid duplicates.
@@ -25,8 +25,8 @@ CI must pass on the PR before merge.
 ## Development setup
 
 ```bash
-git clone https://github.com/zeddotes/wp-code-enhance-block.git
-cd wp-code-enhance-block
+git clone https://github.com/zeddotes/code-enhance.git
+cd code-enhance
 nvm use
 npm install
 npm start

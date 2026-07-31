@@ -1,14 +1,14 @@
 # Code Enhance
 
-[![CI](https://github.com/zeddotes/wp-code-enhance-block/actions/workflows/ci.yml/badge.svg)](https://github.com/zeddotes/wp-code-enhance-block/actions/workflows/ci.yml)
-[![Release](https://github.com/zeddotes/wp-code-enhance-block/actions/workflows/release.yml/badge.svg)](https://github.com/zeddotes/wp-code-enhance-block/actions/workflows/release.yml)
+[![CI](https://github.com/zeddotes/code-enhance/actions/workflows/ci.yml/badge.svg)](https://github.com/zeddotes/code-enhance/actions/workflows/ci.yml)
+[![Release](https://github.com/zeddotes/code-enhance/actions/workflows/release.yml/badge.svg)](https://github.com/zeddotes/code-enhance/actions/workflows/release.yml)
 [![License: GPL v2 or later](https://img.shields.io/badge/License-GPL%20v2%2B-blue.svg)](./LICENSE)
 
 WordPress plugin that extends the core **Code** block (`core/code`) for technical authors — language-aware Prism highlighting, line numbers, tab/indent controls, and a configurable copy button.
 
 No separate block type. Authors keep inserting the standard Code block; Code Enhance adds a **Code Enhance** panel in the sidebar.
 
-**Repository:** [github.com/zeddotes/wp-code-enhance-block](https://github.com/zeddotes/wp-code-enhance-block)
+**Repository:** [github.com/zeddotes/code-enhance](https://github.com/zeddotes/code-enhance)
 
 ## Features
 
@@ -29,15 +29,15 @@ No separate block type. Authors keep inserting the standard Code block; Code Enh
 
 ### From a release zip
 
-1. Download `code-enhance-*.zip` from [Releases](https://github.com/zeddotes/wp-code-enhance-block/releases).
+1. Download `code-enhance-*.zip` from [Releases](https://github.com/zeddotes/code-enhance/releases).
 2. In WP Admin → **Plugins → Add New → Upload Plugin**, upload the zip and activate **Code Enhance**.
 3. Edit a post, insert a **Code** block, open the **Code Enhance** panel.
 
 ### From source
 
 ```bash
-git clone https://github.com/zeddotes/wp-code-enhance-block.git
-cd wp-code-enhance-block
+git clone https://github.com/zeddotes/code-enhance.git
+cd code-enhance
 nvm use
 npm install
 npm run build
@@ -81,8 +81,8 @@ Merges that do not change the version still run CI; they do not recreate an exis
 
 Collaboration is welcome.
 
-- **Bugs and features:** open an issue using the templates — [New issue](https://github.com/zeddotes/wp-code-enhance-block/issues/new/choose)
-- **Browse issues:** [Issues](https://github.com/zeddotes/wp-code-enhance-block/issues)
+- **Bugs and features:** open an issue using the templates — [New issue](https://github.com/zeddotes/code-enhance/issues/new/choose)
+- **Browse issues:** [Issues](https://github.com/zeddotes/code-enhance/issues)
 - **Pull requests:** fork, branch from `main`, keep changes focused, ensure CI passes
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup, issue guidelines, and the release versioning rule.

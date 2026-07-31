@@ -6,12 +6,12 @@
 	"license": "GPL-2.0-or-later",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/zeddotes/wp-code-enhance-block.git"
+		"url": "git+https://github.com/zeddotes/code-enhance.git"
 	},
 	"bugs": {
-		"url": "https://github.com/zeddotes/wp-code-enhance-block/issues"
+		"url": "https://github.com/zeddotes/code-enhance/issues"
 	},
-	"homepage": "https://github.com/zeddotes/wp-code-enhance-block#readme",
+	"homepage": "https://github.com/zeddotes/code-enhance#readme",
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build",
