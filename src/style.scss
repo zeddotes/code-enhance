@@ -1,0 +1,78 @@
+.wp-block-code {
+	position: relative;
+
+	&.has-copy-button {
+		.code-enhance-copy {
+			position: absolute;
+			z-index: 1;
+			margin: 0;
+			padding: 0.35em 0.65em;
+			border: 1px solid rgba(255, 255, 255, 0.25);
+			border-radius: 4px;
+			background: rgba(0, 0, 0, 0.55);
+			color: #f8f8f2;
+			font: inherit;
+			font-size: 0.75rem;
+			line-height: 1.2;
+			cursor: pointer;
+			transition: opacity 0.15s ease, visibility 0.15s ease;
+
+			&:hover,
+			&:focus-visible {
+				background: rgba(0, 0, 0, 0.75);
+			}
+
+			&:focus-visible {
+				outline: 2px solid #66d9ef;
+				outline-offset: 2px;
+			}
+
+			&.is-copied {
+				background: rgba(166, 226, 46, 0.25);
+				border-color: rgba(166, 226, 46, 0.55);
+			}
+		}
+
+		&.copy-position-top-left .code-enhance-copy {
+			top: 0.5rem;
+			left: 0.5rem;
+		}
+
+		&.copy-position-top-right .code-enhance-copy {
+			top: 0.5rem;
+			right: 0.5rem;
+		}
+
+		&.copy-position-bottom-left .code-enhance-copy {
+			bottom: 0.5rem;
+			left: 0.5rem;
+		}
+
+		&.copy-position-bottom-right .code-enhance-copy {
+			right: 0.5rem;
+			bottom: 0.5rem;
+		}
+
+		&.copy-visibility-always .code-enhance-copy {
+			opacity: 1;
+			visibility: visible;
+		}
+
+		&.copy-visibility-hover .code-enhance-copy {
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		&.copy-visibility-hover:hover .code-enhance-copy,
+		&.copy-visibility-hover:focus-within .code-enhance-copy {
+			opacity: 1;
+			visibility: visible;
+		}
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.wp-block-code.has-copy-button .code-enhance-copy {
+		transition: none;
+	}
+}
