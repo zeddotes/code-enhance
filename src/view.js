@@ -44,19 +44,36 @@ async function copyText( text ) {
 }
 
 /**
- * Inject a copy button into a code block wrapper.
+ * Insert a copy toolbar before or after the code block (never inside it).
  *
  * @param {HTMLElement} blockEl .wp-block-code element.
  */
 function enhanceCopyButton( blockEl ) {
-	if ( blockEl.querySelector( '.code-enhance-copy' ) ) {
+	if (
+		blockEl.previousElementSibling?.classList.contains(
+			'code-enhance-copy-bar'
+		) ||
+		blockEl.nextElementSibling?.classList.contains( 'code-enhance-copy-bar' )
+	) {
 		return;
 	}
 
 	const codeEl = blockEl.querySelector( 'code' );
-	if ( ! codeEl ) {
+	if ( ! codeEl || ! blockEl.parentNode ) {
 		return;
 	}
+
+	const placement =
+		blockEl.getAttribute( 'data-copy-placement' ) === 'before'
+			? 'before'
+			: 'after';
+	const align = blockEl.getAttribute( 'data-copy-align' ) || 'right';
+	const safeAlign = [ 'left', 'center', 'right' ].includes( align )
+		? align
+		: 'right';
+
+	const bar = document.createElement( 'div' );
+	bar.className = `code-enhance-copy-bar copy-align-${ safeAlign }`;
 
 	const button = document.createElement( 'button' );
 	button.type = 'button';
@@ -79,7 +96,13 @@ function enhanceCopyButton( blockEl ) {
 		}, COPIED_MS );
 	} );
 
-	blockEl.appendChild( button );
+	bar.appendChild( button );
+
+	if ( placement === 'before' ) {
+		blockEl.parentNode.insertBefore( bar, blockEl );
+	} else {
+		blockEl.parentNode.insertBefore( bar, blockEl.nextSibling );
+	}
 }
 
 /**

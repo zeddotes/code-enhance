@@ -37,7 +37,11 @@ jobs:
           test -f build/view.js
           test -f build/view.asset.php
           test -f build/index.css
-          test -f build/style-view.css
+          test -f build/view.css
+          if [[ ! -f build/style-view.css && ! -f build/style-index.css ]]; then
+            echo "missing style-view.css / style-index.css" >&2
+            exit 1
+          fi
 
       - name: Package WordPress zip
         run: npm run package

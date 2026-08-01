@@ -18,8 +18,7 @@ Code Enhance adds inspector controls to the WordPress core Code block:
 * Optional line numbers
 * Tab key indents inside the block (Shift+Tab outdents); optional spaces instead of tabs
 * Configurable tab size (2 / 4 / 8)
-* Optional copy button with corner position (top/bottom × left/right)
-* Copy button visibility: on hover or always visible
+* Optional copy button before or after the code block, aligned left / center / right (or hidden)
 
 No separate block type — authors keep using the standard Code block.
 

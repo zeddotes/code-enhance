@@ -34,6 +34,12 @@ if [[ ! -f build/index.js || ! -f build/view.js || ! -f build/index.asset.php ||
 	exit 1
 fi
 
+# Shared styles may land on either entry depending on imports.
+if [[ ! -f build/style-view.css && ! -f build/style-index.css ]]; then
+	echo "error: build output missing style-*.css" >&2
+	exit 1
+fi
+
 rm -rf "${DIST_DIR}/.stage"
 mkdir -p "${STAGE_DIR}"
 

@@ -8,8 +8,8 @@ import { __ } from '@wordpress/i18n';
 
 import { applyIndent } from './indent';
 import {
-	COPY_POSITION_OPTIONS,
-	COPY_VISIBILITY_OPTIONS,
+	COPY_ALIGN_OPTIONS,
+	COPY_PLACEMENT_OPTIONS,
 	LANGUAGE_OPTIONS,
 	TAB_SIZE_OPTIONS,
 } from './languages';
@@ -49,6 +49,27 @@ function countLines( value ) {
 }
 
 /**
+ * Non-interactive copy toolbar preview for the editor.
+ *
+ * @param {Object} props          Props.
+ * @param {string} props.align    left|center|right.
+ * @param {string} props.placement before|after.
+ * @return {JSX.Element} Toolbar.
+ */
+function CopyBarPreview( { align } ) {
+	return (
+		<div
+			className={ `code-enhance-copy-bar copy-align-${ align }` }
+			aria-hidden="true"
+		>
+			<button type="button" className="code-enhance-copy" tabIndex={ -1 }>
+				{ __( 'Copy', 'code-enhance' ) }
+			</button>
+		</div>
+	);
+}
+
+/**
  * Code Enhance block edit UI (replaces core Code edit).
  *
  * @param {Object} props Block edit props.
@@ -60,8 +81,8 @@ export default function CodeEnhanceEdit( props ) {
 		content = '',
 		language = '',
 		showCopy = true,
-		copyPosition = 'top-right',
-		copyVisibility = 'hover',
+		copyPlacement = 'after',
+		copyAlign = 'right',
 		tabSize = 4,
 		indentWithSpaces = true,
 		showLineNumbers = false,
@@ -85,20 +106,18 @@ export default function CodeEnhanceEdit( props ) {
 
 	const languageClass = language ? `language-${ language }` : '';
 	const resolvedTabSize = Number( tabSize ) || 4;
+	const placement = copyPlacement === 'before' ? 'before' : 'after';
+	const align = [ 'left', 'center', 'right' ].includes( copyAlign )
+		? copyAlign
+		: 'right';
 
 	const blockProps = useBlockProps( {
 		className: [
-			'code-enhance-editor',
-			languageClass,
+			'code-enhance-shell',
 			showCopy ? 'has-copy-button' : '',
-			showLineNumbers ? 'show-line-numbers' : '',
 		]
 			.filter( Boolean )
 			.join( ' ' ),
-		style: {
-			tabSize: resolvedTabSize,
-			MozTabSize: resolvedTabSize,
-		},
 	} );
 
 	useEffect( () => {
@@ -174,6 +193,8 @@ export default function CodeEnhanceEdit( props ) {
 		return marks;
 	}, [ lineCount ] );
 
+	const copyBar = showCopy ? <CopyBarPreview align={ align } /> : null;
+
 	return (
 		<>
 			<InspectorControls>
@@ -235,26 +256,26 @@ export default function CodeEnhanceEdit( props ) {
 								__next40pxDefaultSize
 								__nextHasNoMarginBottom
 								label={ __(
-									'Copy button position',
+									'Copy button placement',
 									'code-enhance'
 								) }
-								value={ copyPosition }
-								options={ COPY_POSITION_OPTIONS }
+								value={ placement }
+								options={ COPY_PLACEMENT_OPTIONS }
 								onChange={ ( value ) =>
-									setAttributes( { copyPosition: value } )
+									setAttributes( { copyPlacement: value } )
 								}
 							/>
 							<SelectControl
 								__next40pxDefaultSize
 								__nextHasNoMarginBottom
 								label={ __(
-									'Copy button visibility',
+									'Copy button alignment',
 									'code-enhance'
 								) }
-								value={ copyVisibility }
-								options={ COPY_VISIBILITY_OPTIONS }
+								value={ align }
+								options={ COPY_ALIGN_OPTIONS }
 								onChange={ ( value ) =>
-									setAttributes( { copyVisibility: value } )
+									setAttributes( { copyAlign: value } )
 								}
 							/>
 						</>
@@ -262,44 +283,60 @@ export default function CodeEnhanceEdit( props ) {
 				</PanelBody>
 			</InspectorControls>
 			<div { ...blockProps }>
-				{ showLineNumbers && (
-					<div
-						ref={ gutterRef }
-						className="code-enhance-line-numbers"
+				{ showCopy && placement === 'before' && copyBar }
+				<div
+					className={ [
+						'code-enhance-editor',
+						languageClass,
+						showLineNumbers ? 'show-line-numbers' : '',
+					]
+						.filter( Boolean )
+						.join( ' ' ) }
+					style={ {
+						tabSize: resolvedTabSize,
+						MozTabSize: resolvedTabSize,
+					} }
+				>
+					{ showLineNumbers && (
+						<div
+							ref={ gutterRef }
+							className="code-enhance-line-numbers"
+							aria-hidden="true"
+						>
+							{ lineNumberMarks }
+						</div>
+					) }
+					<pre
+						ref={ highlightRef }
+						className={ `code-enhance-highlight ${ languageClass }` }
 						aria-hidden="true"
 					>
-						{ lineNumberMarks }
-					</div>
-				) }
-				<pre
-					ref={ highlightRef }
-					className={ `code-enhance-highlight ${ languageClass }` }
-					aria-hidden="true"
-				>
-					<code
-						className={ languageClass }
-						dangerouslySetInnerHTML={ { __html: highlighted } }
+						<code
+							className={ languageClass }
+							dangerouslySetInnerHTML={ { __html: highlighted } }
+						/>
+					</pre>
+					<textarea
+						ref={ textareaRef }
+						className="code-enhance-textarea"
+						value={ plainContent }
+						rows={ lineCount }
+						spellCheck={ false }
+						autoCapitalize="off"
+						autoComplete="off"
+						autoCorrect="off"
+						aria-label={ __( 'Code', 'code-enhance' ) }
+						onScroll={ syncScroll }
+						onKeyDown={ onKeyDown }
+						onChange={ ( event ) => {
+							updateContent( event.target.value, {
+								start: event.target.selectionStart,
+								end: event.target.selectionEnd,
+							} );
+						} }
 					/>
-				</pre>
-				<textarea
-					ref={ textareaRef }
-					className="code-enhance-textarea"
-					value={ plainContent }
-					rows={ lineCount }
-					spellCheck={ false }
-					autoCapitalize="off"
-					autoComplete="off"
-					autoCorrect="off"
-					aria-label={ __( 'Code', 'code-enhance' ) }
-					onScroll={ syncScroll }
-					onKeyDown={ onKeyDown }
-					onChange={ ( event ) => {
-						updateContent( event.target.value, {
-							start: event.target.selectionStart,
-							end: event.target.selectionEnd,
-						} );
-					} }
-				/>
+				</div>
+				{ showCopy && placement === 'after' && copyBar }
 			</div>
 		</>
 	);

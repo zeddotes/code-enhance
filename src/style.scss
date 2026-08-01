@@ -1,5 +1,4 @@
 .wp-block-code {
-	position: relative;
 	tab-size: var(--code-enhance-tab-size, 4);
 
 	&[data-tab-size='2'] {
@@ -18,7 +17,6 @@
 		position: relative;
 		padding-left: 0;
 
-		/* Prism line-numbers plugin styles are loaded via JS; theme tweaks: */
 		.line-numbers-rows {
 			border-right-color: rgba(255, 255, 255, 0.12);
 		}
@@ -27,79 +25,56 @@
 			color: #75715e;
 		}
 	}
+}
 
-	&.has-copy-button {
-		.code-enhance-copy {
-			position: absolute;
-			z-index: 1;
-			margin: 0;
-			padding: 0.35em 0.65em;
-			border: 1px solid rgba(255, 255, 255, 0.25);
-			border-radius: 4px;
-			background: rgba(0, 0, 0, 0.55);
-			color: #f8f8f2;
-			font: inherit;
-			font-size: 0.75rem;
-			line-height: 1.2;
-			cursor: pointer;
-			transition: opacity 0.15s ease, visibility 0.15s ease;
+.code-enhance-copy-bar {
+	display: flex;
+	width: 100%;
+	margin: 0.35em 0;
+	box-sizing: border-box;
 
-			&:hover,
-			&:focus-visible {
-				background: rgba(0, 0, 0, 0.75);
-			}
+	&.copy-align-left {
+		justify-content: flex-start;
+	}
 
-			&:focus-visible {
-				outline: 2px solid #66d9ef;
-				outline-offset: 2px;
-			}
+	&.copy-align-center {
+		justify-content: center;
+	}
 
-			&.is-copied {
-				background: rgba(166, 226, 46, 0.25);
-				border-color: rgba(166, 226, 46, 0.55);
-			}
+	&.copy-align-right {
+		justify-content: flex-end;
+	}
+
+	.code-enhance-copy {
+		margin: 0;
+		padding: 0.35em 0.75em;
+		border: 1px solid currentColor;
+		border-radius: 4px;
+		background: transparent;
+		color: inherit;
+		font: inherit;
+		font-size: 0.8125rem;
+		line-height: 1.2;
+		cursor: pointer;
+
+		&:hover,
+		&:focus-visible {
+			opacity: 0.85;
 		}
 
-		&.copy-position-top-left .code-enhance-copy {
-			top: 0.5rem;
-			left: 0.5rem;
+		&:focus-visible {
+			outline: 2px solid #2271b1;
+			outline-offset: 2px;
 		}
 
-		&.copy-position-top-right .code-enhance-copy {
-			top: 0.5rem;
-			right: 0.5rem;
-		}
-
-		&.copy-position-bottom-left .code-enhance-copy {
-			bottom: 0.5rem;
-			left: 0.5rem;
-		}
-
-		&.copy-position-bottom-right .code-enhance-copy {
-			right: 0.5rem;
-			bottom: 0.5rem;
-		}
-
-		&.copy-visibility-always .code-enhance-copy {
+		&.is-copied {
 			opacity: 1;
-			visibility: visible;
-		}
-
-		&.copy-visibility-hover .code-enhance-copy {
-			opacity: 0;
-			visibility: hidden;
-		}
-
-		&.copy-visibility-hover:hover .code-enhance-copy,
-		&.copy-visibility-hover:focus-within .code-enhance-copy {
-			opacity: 1;
-			visibility: visible;
 		}
 	}
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.wp-block-code.has-copy-button .code-enhance-copy {
+	.code-enhance-copy-bar .code-enhance-copy {
 		transition: none;
 	}
 }

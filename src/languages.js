@@ -19,16 +19,15 @@ export const LANGUAGE_OPTIONS = [
 	{ label: 'YAML', value: 'yaml' },
 ];
 
-export const COPY_POSITION_OPTIONS = [
-	{ label: 'Top left', value: 'top-left' },
-	{ label: 'Top right', value: 'top-right' },
-	{ label: 'Bottom left', value: 'bottom-left' },
-	{ label: 'Bottom right', value: 'bottom-right' },
+export const COPY_PLACEMENT_OPTIONS = [
+	{ label: 'Before code', value: 'before' },
+	{ label: 'After code', value: 'after' },
 ];
 
-export const COPY_VISIBILITY_OPTIONS = [
-	{ label: 'On hover', value: 'hover' },
-	{ label: 'Always', value: 'always' },
+export const COPY_ALIGN_OPTIONS = [
+	{ label: 'Left', value: 'left' },
+	{ label: 'Center', value: 'center' },
+	{ label: 'Right', value: 'right' },
 ];
 
 export const TAB_SIZE_OPTIONS = [

@@ -6,6 +6,7 @@ import { addFilter } from '@wordpress/hooks';
 import { cloneElement, Children, isValidElement } from '@wordpress/element';
 
 import CodeEnhanceEdit from './edit';
+import './style.scss';
 import './editor.scss';
 
 const BLOCK_NAME = 'core/code';
@@ -44,13 +45,13 @@ function addCodeEnhanceAttributes( settings, name ) {
 				type: 'boolean',
 				default: true,
 			},
-			copyPosition: {
+			copyPlacement: {
 				type: 'string',
-				default: 'top-right',
+				default: 'after',
 			},
-			copyVisibility: {
+			copyAlign: {
 				type: 'string',
-				default: 'hover',
+				default: 'right',
 			},
 			tabSize: {
 				type: 'number',
@@ -89,13 +90,17 @@ function addCodeEnhanceExtraProps( props, blockType, attributes ) {
 
 	const {
 		showCopy = true,
-		copyPosition = 'top-right',
-		copyVisibility = 'hover',
+		copyPlacement = 'after',
+		copyAlign = 'right',
 		tabSize = 4,
 		showLineNumbers = false,
 	} = attributes;
 
 	const resolvedTabSize = Number( tabSize ) || 4;
+	const placement = copyPlacement === 'before' ? 'before' : 'after';
+	const align = [ 'left', 'center', 'right' ].includes( copyAlign )
+		? copyAlign
+		: 'right';
 	const extraClasses = [];
 
 	if ( showLineNumbers ) {
@@ -105,8 +110,8 @@ function addCodeEnhanceExtraProps( props, blockType, attributes ) {
 	if ( showCopy ) {
 		extraClasses.push(
 			'has-copy-button',
-			`copy-position-${ copyPosition }`,
-			`copy-visibility-${ copyVisibility }`
+			`copy-placement-${ placement }`,
+			`copy-align-${ align }`
 		);
 	}
 
@@ -122,8 +127,8 @@ function addCodeEnhanceExtraProps( props, blockType, attributes ) {
 	};
 
 	if ( showCopy ) {
-		next[ 'data-copy-position' ] = copyPosition;
-		next[ 'data-copy-visibility' ] = copyVisibility;
+		next[ 'data-copy-placement' ] = placement;
+		next[ 'data-copy-align' ] = align;
 	}
 
 	return next;

@@ -61,14 +61,26 @@ function code_enhance_enqueue_editor_styles() {
 		return;
 	}
 
-	$asset = include $asset_file;
-	$editor_css = CODE_ENHANCE_DIR . 'build/index.css';
+	$asset       = include $asset_file;
+	$shared_css  = CODE_ENHANCE_DIR . 'build/style-index.css';
+	$editor_css  = CODE_ENHANCE_DIR . 'build/index.css';
+	$style_deps  = array();
+
+	if ( file_exists( $shared_css ) ) {
+		wp_enqueue_style(
+			'code-enhance-style',
+			CODE_ENHANCE_URL . 'build/style-index.css',
+			array(),
+			$asset['version']
+		);
+		$style_deps[] = 'code-enhance-style';
+	}
 
 	if ( file_exists( $editor_css ) ) {
 		wp_enqueue_style(
 			'code-enhance-editor',
 			CODE_ENHANCE_URL . 'build/index.css',
-			array(),
+			$style_deps,
 			$asset['version']
 		);
 	}
@@ -112,11 +124,18 @@ function code_enhance_enqueue_frontend_assets() {
 		);
 	}
 
+	// Shared styles may be emitted as style-view.css or style-index.css.
 	$style_file = CODE_ENHANCE_DIR . 'build/style-view.css';
+	$style_url  = CODE_ENHANCE_URL . 'build/style-view.css';
+	if ( ! file_exists( $style_file ) ) {
+		$style_file = CODE_ENHANCE_DIR . 'build/style-index.css';
+		$style_url  = CODE_ENHANCE_URL . 'build/style-index.css';
+	}
+
 	if ( file_exists( $style_file ) ) {
 		wp_enqueue_style(
 			'code-enhance-view',
-			CODE_ENHANCE_URL . 'build/style-view.css',
+			$style_url,
 			array( 'code-enhance-prism' ),
 			$asset['version']
 		);

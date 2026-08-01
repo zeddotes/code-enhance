@@ -2,7 +2,13 @@
 	margin-bottom: 12px;
 }
 
-.wp-block-code.code-enhance-editor {
+.wp-block-code.code-enhance-shell {
+	.code-enhance-copy-bar .code-enhance-copy {
+		pointer-events: none;
+	}
+}
+
+.code-enhance-editor {
 	--code-enhance-pad-y: 0.75em;
 	--code-enhance-pad-x: 1em;
 	--code-enhance-line-height: 1.6;

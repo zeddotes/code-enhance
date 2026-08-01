@@ -16,7 +16,7 @@ No separate block type. Authors keep inserting the standard Code block; Code Enh
 - Optional line numbers
 - Tab stays inside the block and indents; Shift+Tab outdents
 - Indent with spaces or tabs; tab size 2 / 4 / 8
-- Optional copy button (corner position + hover / always)
+- Optional copy button before or after the code block (left / center / right), or hidden
 - Bundled Prism (no CDN, no remote calls)
 
 ## Requirements
